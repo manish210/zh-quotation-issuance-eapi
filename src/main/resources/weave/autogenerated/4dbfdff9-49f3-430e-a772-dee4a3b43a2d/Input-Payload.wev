@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_4dbfdff9_49f3_430e_a772_dee4a3b43a2d_Input_Payload = {
+  travelDetails: Array<{    returnDate: String,     destination: String,     departureDate: String,     _?: Any  }>, 
+  customerData: Array<{    firstName: String,     lastName: String,     dob: String,     emailId: String,     _?: Any  }>, 
+  _?: Any
+}
+

@@ -1,0 +1,19 @@
+api:
+  id: "18392358"
+  
+httpListener:       
+    port: "8081"
+    host: "0.0.0.0"
+    path: "/*"
+    timeout: "60000"
+    
+papi:        
+    policy-plan:        
+        port: "8083"
+        host: "zh-policy-plan-papi-dev.us-e2.cloudhub.io"
+        protocol: "HTTP"
+        version: "v1"
+        basePath: "/"
+        timeout: "90000"
+        clientId: "83ead2117eb2478bb6770ff0321a2bf0"
+        clientSecret: "86C6669F27914b4a9D94C6Af989c6736"

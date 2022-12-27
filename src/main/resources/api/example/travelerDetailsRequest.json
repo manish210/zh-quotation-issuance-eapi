@@ -1,0 +1,35 @@
+{
+      "customerData":[
+         {
+            "firstName":"Sherlock",
+            "lastName":"Homes",
+            "dob":"21-06-1990",
+            "emailId":"Sherlock.Homes@abc.com"
+         },
+         {
+            "firstName":"James",
+            "lastName":"Watson",
+            "dob":"01-01-1990",
+            "emailId":"James.Watson@abc.com"
+         },
+         {
+            "firstName":"Siva",
+            "lastName":"Ram",
+            "dob":"01-01-1900",
+            "emailId":"Siva.Ram@god.com"
+         },
+         {
+            "firstName":"Parvati",
+            "lastName":"sita",
+            "dob":"01-01-1900",
+            "emailId":"Parvati.sita@god.com"
+         }
+      ],
+      "travelDetails":[
+         {
+            "destination":"Singapore",
+            "departureDate":"12-12-2020",
+            "returnDate":"22-20-2022"
+         }
+      ] 
+}

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<error-handler name="error-handling-apikit" doc:id="76d03918-e58f-4ba7-b0f9-c8e6c20399f6" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5afb22b0-27de-46ce-945c-a1a71e37cf31" type="APIKIT:BAD_REQUEST">
+			<ee:transform doc:name="Set HTTP Status = 400 &amp; errCode" doc:id="45aff444-013c-4648-b909-c898091ec41b">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+400]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["bad Request"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="8c5315ee-ec25-4028-839e-ca54cfa5589b" name="error-handling:\response" />
+		
+</on-error-continue>   
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="3b398f1f-53f1-4245-b2c8-6ec13183dedf" type="APIKIT:NOT_FOUND" >
+			<ee:transform doc:name="Set HTTP Status = 404 &amp; errCode" doc:id="d5228fe5-56c7-4db9-aa58-dcdf61839337">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["Resource not found"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="4e13e03f-5ef7-473d-93d6-6b607747acdf" name="error-handling:\response" />
+		
+</on-error-continue>	
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d980b8a6-c16b-4ab9-b55f-e6d7d34868a6" type="APIKIT:METHOD_NOT_ALLOWED" >
+			<ee:transform doc:name="Set HTTP Status = 405 &amp; errCode" doc:id="45bb76ae-c3cf-4253-b785-10476173d7dd">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+405]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["Client request is not allowed on the API/Application"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="b50a7b22-2a28-49d7-9ded-758dde323995" name="error-handling:\response" />
+		
+</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="8586e5dc-db28-46ee-a517-e4281a091caf" type="APIKIT:NOT_ACCEPTABLE" >
+			<ee:transform doc:name="Set HTTP Status = 406 &amp; errCode" doc:id="918d2691-e33b-4a6b-a5d8-eb898821a3d6">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+406]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["Client request is not acceptable on the API/Application"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="ad7d3134-9858-40d9-8232-14894df62d23" name="error-handling:\response" />
+		
+</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6e26ad17-b4cd-490c-b625-354b97eb05d2" type="APIKIT:UNSUPPORTED_MEDIA_TYPE" >
+			<ee:transform doc:name="Set HTTP Status = 415 &amp; errCode" doc:id="a13696bd-b749-4a32-a4ac-db202be59ca1">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+415]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["Client\'s payload is not supported by the API"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="5ef96e17-677e-492d-84d5-490f44cb6e98" name="error-handling:\response" />
+		
+</on-error-continue>	
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9f69fc06-190b-491d-a3db-b327be301174" type="APIKIT:NOT_IMPLEMENTED" >
+			<ee:transform doc:name="Set HTTP Status = 501 &amp; errCode" doc:id="2d0ccdea-0cad-426a-96a5-b554faa95a91">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+501]]></ee:set-variable>
+					<ee:set-variable variableName="errCode"><![CDATA["Client is accessing a not implemented functionalities"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="efbfd23e-df69-4fc5-a3f3-6841bce48d83" name="error-handling:\response" />
+		
+</on-error-continue>	
+	
+	</error-handler>
+	<!-- <error-handler name="error-handling-app" doc:id="417a9e52-2a5e-4350-a8c4-e486b2122dcc" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="630c1ded-511d-40d4-877a-8b040917785a" type="HTTP:BAD_REQUEST">
+			<ee:transform doc:name="Set HTTP Status = 400 &amp; errCode" doc:id="5dce8dfd-d5ca-4b22-9b91-6bcc4ec9a560" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+400]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+p('error.badRequest.code')]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="c4423c4d-69ec-40f1-85a7-ef2d083918c2" name="error-handling:\response" />
+		</on-error-continue>		
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="119b2f9b-2bf1-4dcc-b507-1b36e59eb64b" type="HTTP:UNAUTHORIZED">
+			<ee:transform doc:name="Set HTTP Status = 401 &amp; errCode" doc:id="fdc4eaa5-2096-46e2-a7db-34cce644ecad" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+401]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+p('error.notFound.code')]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="bdb1da00-bc8c-41fb-815a-6e1e5139a137" name="error-handling:\response" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d8417ab1-4d26-48d3-8a39-7ca60c19ae15" type="HTTP:NOT_FOUND">
+			<ee:transform doc:name="Set HTTP Status = 404 &amp; errCode" doc:id="e1437316-dc9c-487c-a084-4276ff8cd2ac" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+404]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+p('error.notFound.code')]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="a48180c1-be39-46a4-8f5b-9fa76abd3fdf" name="error-handling:\response" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b841043b-2592-4414-85fc-ee6ecb26f32f" type="HTTP:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform doc:name="Set HTTP Status = 415 &amp; errCode" doc:id="86554a89-09b9-45cd-a7c2-da9806bdce2a" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+415]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+p('error.unsupportedMediaType.code')]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="63356cc0-78b5-40bc-a5d4-fa9bd5bc071b" name="error-handling:\response" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="16acb66d-a395-4d9c-bfa9-dd8cebcf45a9" type="SERVER:SERVER_NOT_FOUND">
+			<ee:transform doc:name="Set HTTP Status = 500 &amp; errCode" doc:id="266482b9-3d19-4956-9ecc-49d452cf6870" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA["Server is not recognized "]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="a9b6039d-da22-464d-b1c2-e6d170bfe304" name="error-handling:\response"/>
+		</on-error-continue>		
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2e4d6307-379c-4f07-a004-4dc985b78129" type="ANY">
+			<ee:transform doc:name="Set HTTP Status = 500 &amp; errCode" doc:id="27ba0ece-bc8f-43f2-b721-6572b31eaca9" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+500]]></ee:set-variable>
+					<ee:set-variable variableName="errCode" ><![CDATA[%dw 2.0
+output application/java
+-&#45;&#45;
+p('error.any.code')]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<flow-ref doc:name="error-handling:\response" doc:id="46869ea7-cb99-4dd8-90bc-38c8186ffdb9" name="error-handling:\response" />
+		</on-error-continue>
+		
+	</error-handler> -->
+	<sub-flow name="error-handling:\response" doc:id="fb61f334-8af0-4769-8c80-1700f3022d64" >
+		<logger level="INFO" doc:name="Failed Logger" doc:id="61bbbc55-db0d-4283-9a75-b0b8b382c942" message="#[payload]"/>
+		<ee:transform doc:name="Set Error Response" doc:id="4e058a22-1024-4f97-8962-2a12e63c11d6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: vars.httpStatus,
+  responseId: correlationId,
+  transactionDate: now(),
+  data: {
+  		errorCode: vars.errCode,
+		errorType: error.errorType.identifier as String,
+		errorDescription: error.detailedDescription
+  }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="quotationCreationSub_Flow" doc:id="4dbfdff9-49f3-430e-a772-dee4a3b43a2d" >
+		<logger level="INFO" doc:name="entry logger" doc:id="b95f8b04-2cb3-42e6-a5a9-39d37633c202" message="logging input payload #[payload]"/>
+		<ee:transform doc:name="Transforming data" doc:id="5ca05311-23ed-40e3-bb5e-816fc43fc99e" >
+			<ee:message >
+				<ee:set-payload resource="dwl/requestPayload.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="logginf input payload" doc:id="282e41d3-f3a1-4e40-9414-2fcc7b8cd20d" message='"input payload for papi":: #[payload]'/>
+		<http:request method="POST" doc:name="calling papi api" doc:id="3ed39930-e2b4-4545-8298-58fdaf054dd2" config-ref="HTTP_Request_configuration" path="/createQuotation"/>
+		<logger level="INFO" doc:name="response logging" doc:id="7e3f9a4f-c79e-4717-a869-5cd4d85f5fe1" message="#[payload]"/>
+		<ee:transform doc:name="Response data" doc:id="691679ef-d089-4769-8957-56eb0b1c378b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="exit logger" doc:id="3c3a9baf-f9af-4597-bc37-85fe6f13333c" message="#[payload]"/>
+	</sub-flow>
+</mule>

@@ -1,0 +1,71 @@
+#%RAML 1.0 Library
+usage: Library for Traits
+
+traits:
+  goSecure:
+    headers:
+      client_id:
+        displayName: Client ID
+        type: string
+        required: true
+      client_secret:
+        displayName: Client Secret
+        type: string
+        required: true
+  auditHeaders:
+    headers:
+      correlationId:
+        displayName: Correlation ID
+        type: string
+        required: false
+        example: 85835d0e-539c-4cbb-bb67-e0727cbc4867  
+  errorResponses:
+    responses:
+      400:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 400
+              error: BAD_REQUEST
+              response: Invalid Request
+      401:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 401
+              error: INVALID_CLIENT
+              response: Invalid Client Id or Secret
+      404:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 404
+              error: NOT_FOUND
+              response: Resource not found
+      405:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 405
+              error: METHOD_NOT_ALLOWED
+              response: Method not allowed 
+      500:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 500
+              error: INTERNAL_SERVER_ERROR
+              response: There is an internal error
+      501:
+        body:
+          application/json:
+            example:
+              successful: false
+              status: 501
+              error: NOT_IMPLEMENTED
+              response: Not Implemented in system.
