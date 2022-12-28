@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
 	<sub-flow name="policyCreationSub_Flow" doc:id="15a0691d-a503-40eb-939f-a3707e8ab845" >
-		<ee:transform doc:name="Transform Message" doc:id="6a98dfe7-037b-4e80-84ff-97bde79f8d21" >
+<logger level="INFO" doc:name="entry logger" doc:id="b7d2e433-7de5-402a-8698-a2c7d577ded6" message="Policy Creation flow is started"/>
+		<ee:transform doc:name="policy variable" doc:id="270de8dd-6001-4424-bcf1-922692b3b656" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="quotationId" ><![CDATA[attributes.queryParams.'quote_id']]></ee:set-variable>
+				<ee:set-variable variableName="policyName" ><![CDATA[attributes.queryParams.'policyName']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="setting payload for queue" doc:id="a99f5999-8e73-4561-9d37-85e95d0c3c2f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+	quotationId: vars.quotationId,
+	policyName : vars.policyName
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="prining payload before quere" doc:id="9e512338-c861-40d1-b1c1-704479921dd5" message="#[payload]"/>
+		<vm:publish queueName="${queue.policy-queue-name}" doc:name="policy input payload" doc:id="a306867f-a0ab-4c0a-86a1-6bdf1d79255f" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="exit logger" doc:id="a40be46e-abfb-4e09-89ba-2d5a0467992d" message="#[payload]"/>
 	</sub-flow>
 </mule>

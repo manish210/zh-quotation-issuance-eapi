@@ -17,3 +17,6 @@ papi:
         timeout: "90000"
         clientId: "83ead2117eb2478bb6770ff0321a2bf0"
         clientSecret: "86C6669F27914b4a9D94C6Af989c6736"
+        
+Queue:
+  policy-queue-name: "zh-create-policy"
